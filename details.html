@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input
+        {
+            border-radius: 20px;
+            font-size: 20px;
+        }
+        #image
+        {
+            margin-left: 21px;
+            width: 33%;
+            border-radius: 30px;
+            float: center;
+            opacity: 0;
+            box-shadow: 10px 10px 5px rgb(26, 23, 30);
+        }
+        #container
+        {
+            background-color: rgb(184, 145, 239);
+            font-size: 25px;
+            margin-left: 21%;
+            margin-right: 21%;
+            border-radius: 8px;
+            background-image: url(Images/room.jpg);
+            backface-visibility: 0.3;
+            background-size: cover;
+            box-shadow: 10px 10px 5px rgb(26, 23, 30);
+        }
+        #left_align
+        {
+            margin-left: 10px;
+            float: left;
+        }
+        #right_align
+        {
+            margin-right: 10px;
+            float: right;
+        }
+        #buttons
+        {
+            float: right;
+        }
+    </style>
+    <script>
+        function cookie_extractor(){
+            var cookie_data = decodeURIComponent(document.cookie);
+            if( cookie_data == "" ){
+                window.location.href = "home.html";
+            } else {
+                room_id=cookie_data.substring(cookie_data.indexOf("=")+1);
+                document.getElementById('right_align').innerHTML += `
+                <label for="">Room No.</label><br>
+                <input type="text" name="room_id" value=${room_id} readonly><br>`;
+
+                document.getElementById('image').style.transitionDuration = "2.5s";
+                document.getElementById('image').style.opacity = "1";
+            }
+       }
+
+       function confirmation(){
+        if(!confirm("Confirm Check In")){
+            return false;
+        }
+       }
+
+   </script>
+</head>
+<body onload="cookie_extractor()">
+<form action="p_checkin.php" method="post" id="container" onsubmit="return confirmation()">
+    <br>
+    <div id="left_align">
+    <label for="">First Name</label><br>
+    <input type="text" name="first_name" placeholder="Enter Name" required><br><br><br>
+    <label for="">Middle Name</label><br>
+    <input type="text" name="middle_name" placeholder="Enter Middle Name"><br><br><br>
+    <label for="">Last Name Name</label><br>
+    <input type="text" name="last_name" placeholder="Enter Last Name" required><br><br><br>
+    <label for="">Contact Number</label><br>
+    <input type="number" name="contact_no" placeholder="Enter Number" required><br><br>
+    </div>
+    <div id="right_align">
+    <label for="">Email</label><br>
+    <input type="email" name="email" placeholder="Enter Email" required><br><br><br>
+    <label>ID Type</label><br>
+    <input type="radio" name="id_type" value="Aadhar">
+    <label for="">Aadhar</label><br>
+    <input type="radio" name="id_type" value="PAN">
+    <label for="">PAN</label><br><br>
+    <label for="">ID No.</label><br>
+    <input type="text" name="id_no" placeholder="Enter ID Number"><br><br><br>
+    </div>
+    <img src="Images/hotel.jpg" id="image" alt="Image">
+    <div id="buttons">
+    <input type="reset" value="Reset">
+    <input type="submit" value="Check In">
+    </div>
+</form>
+</body>
+</html>

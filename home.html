@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home</title>
+<style>
+#navbar
+    {
+        overflow: hidden;
+        position:fixed;
+        z-index: 1;
+        width:100%;
+        top: 0;
+        left: 0;
+        background-color: rgb(246, 154, 154);
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        padding-top: 0.5%;
+        padding-bottom: 0.5%;
+    }
+    li .left{
+        float: left;
+    }
+    li .right{
+        float: right;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        font-size: 25px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        text-decoration: none;
+        padding: 2px 2px 2px 2px;
+    }
+
+#rooms
+{
+    font-size: 30px;
+}
+
+.bed-1-text, .bed-3-text
+{
+    float:left;
+    color: rgb(246, 154, 154);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.bed-2-text, .bed-4-text
+{
+    float:right;
+    color: rgb(246, 154, 154);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.bed-1-rooms, .bed-3-rooms
+{
+    margin-left: 400px;
+    margin-right: 130px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 40px;
+    border-color: white;
+}
+.bed-2-rooms, .bed-4-rooms
+{
+    margin-left: 130px;
+    margin-right: 400px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 40px;
+    border-color: white;
+}
+
+
+.flip-area {
+  border-color: transparent;
+  background-color: transparent;
+  width: 190px;
+  height: 130px;
+}
+.flip-box-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+
+.flip-area:hover .flip-box-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-box-front-1, .flip-box-front-2, .flip-box-front-3{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  font-size: 40px;
+  color: rgb(77, 223, 184);
+}
+
+.flip-box-front-1 {
+    background-image: url(Images/r_single.jpg);
+    background-size: cover;
+}
+.flip-box-front-2
+{
+  background-image: url(Images/r_double.jpg);
+  background-size: cover;
+}
+.flip-box-front-3
+{
+  background-image: url(Images/r_triple2.jpeg);
+  background-size: cover;
+}
+
+.flip-box-back {
+  position: relative;
+  background-color: rgb(246, 154, 154);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  font-size: 30px;
+  color: white;
+}
+
+#button
+{
+    height:60px;
+    width: 150px;
+    border-radius: 20px;
+    font-size: 30px;
+    color: rgb(246, 154, 154);
+    background-color: white;
+}
+html
+{
+    scroll-behavior: smooth;
+}
+
+
+* {box-sizing: border-box;}
+
+.popup {
+    background-color: rgb(246, 154, 154);
+    display: none;
+    position: fixed;
+    border: 3px solid #f1f1f1;
+    border-radius: 30px;
+    top:150px;
+    left:400px;
+    right:400px;
+    bottom:150px;
+}
+
+#left
+{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #ffffff;
+  font-size: 25px;
+  margin-left: 5%;
+  float: left;
+  width: 23%;
+}
+#right
+{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #ffffff;
+  font-size: 25px;
+  float: right;
+  width: 69%;
+  margin-right: 3%;
+}
+.bottom
+{
+  margin-top: 10px;
+  margin-right: 15px;
+  float: right;
+}
+</style>
+<script>
+    const caller = new XMLHttpRequest();
+    var check_in_room = " ";
+    var check_out_room = " ";
+
+    var row = " ";
+    var time = " ";
+    var duration = " ";
+    var amount = " ";
+    
+    function room_id(action){
+        if(action == 'check_in'){
+            let date = new Date();
+            date.setTime(date.getTime() + (5 * 1000));
+            document.cookie = "ROOM_ID=" + check_in_room + "; " + "expires=" + date.toUTCString();
+            window.location.href = "details.html";
+        }else if(action == 'check_out'){
+          var data = `room_id=${check_out_room}&first_name=${row['First_Name']}&middle_name=${row['Middle_Name']}&last_name=${row['Last_Name']}&contact_no=${row['Contact_No']}&email=${row['Email']}&id_type=${row['ID_Type']}&id_no=${row['ID_No']}&check_in=${row['Check_In']}&check_out=${time}&duration=${duration}&amount=${amount}`;
+          caller.open('POST','p_checkout.php',true);
+          caller.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          caller.onload = function() {
+            if(caller.response == 904){
+              alert('Error');
+            }else{
+              alert('Checked Out');
+              closeForm();
+            }
+          }
+          caller.send(data);
+        }else{
+          alert('error');
+        }
+      }
+
+    function vacancy(room_no){
+      var data = `room_id=${room_no}`;
+      caller.open('POST','p_status.php',true);
+      caller.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      caller.onload = function() {  
+        if(caller.response == 'VACANT'){
+          document.getElementById(room_no).innerHTML = `AVAILABLE<input type="button" id="button" value="Check In" onclick="room_id('check_in')">`;
+        }else if(caller.response == 'OCCUPIED'){
+          document.getElementById(room_no).innerHTML = `BOOKED<input type="button" id="button" value="Check Out" onclick="openForm()">`;
+        }else if(caller.response == 901){
+          alert('Serach Error');
+        }else{
+          console.log(caller.response);
+        }
+        check_in_room = room_no;
+      }
+        caller.send(data);
+    }
+    
+    function openForm() {
+      check_out_room = check_in_room;
+      var data = `room_id=${check_out_room}`;
+      caller.open('POST','p_fetch.php',true);
+      caller.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      caller.onload = function() {
+        if(caller.response == 903){
+          alert('Error');
+        }else{
+          row = JSON.parse(caller.response);
+          time = new Date().getFullYear()+"-"+adder(new Date().getMonth()+1)+"-"+adder(new Date().getDate())+" "+adder(new Date().getHours())+":"+adder(new Date().getMinutes())+":"+adder(new Date().getSeconds());
+          duration = Math.ceil((new Date(time)-new Date(row['Check_In']))/(1000*60*60));
+          amount = duration * 130;
+          document.getElementById('right').innerHTML = "<br>: "+row['Room_ID']+"<br>: "+row['First_Name']+" "+row['Middle_Name']+" "+row['Last_Name']+"<br>: "+row['Email']+"<br>: "+row['Contact_No']+"<br>: "+row['Check_In']+"<br>: "+time+"<br>: "+duration+" Hour(s)<br>: "+"-/ "+amount+" Rupees<br>";
+        }
+      }
+      caller.send(data);
+      document.getElementById("navbar").style.filter = "blur(4px)";
+      document.getElementById("rooms").style.filter = "blur(4px)";
+      document.getElementById("details").style.display = "block";
+    }
+    
+    function closeForm() {
+        document.getElementById("navbar").style.filter = "blur(0px)";
+        document.getElementById("rooms").style.filter = "blur(0px)";
+        document.getElementById("details").style.display = "none";
+    }
+    function adder(value){
+      if(value<10){
+        return "0"+value;
+      }else{
+        return value;
+      }
+    }
+</script>
+</home>
+<body>
+    <ul id="navbar">
+        <li><a href="#single-bed" class="left">SINGLE-BED</a></li>
+        <li><a href="#double-bed" class="left">DOUBLE-BED</a></li>
+        <li><a href="#triple-bed" class="left">TRIPLE-BED</a></li>
+        <li><a href="#" class="right">LOGOUT</a></li>
+        <li><a href="#" class="right">PROFILE</a></li>
+    </ul>
+
+<div id="rooms">
+
+<div id="single-bed"><br><br>
+  <div class="bed-1-text">
+    SINGLE-BED ROOM
+  </div>    
+  <div class="bed-1-rooms">
+    <div class="flip-area">
+    <div class="flip-box-inner">
+    <div class="flip-box-front-1" onmouseover="vacancy('room_101')"><br>101</div>
+    <div class="flip-box-back" id="room_101"></div>
+    </div>
+    </div>
+
+    <div class="flip-area">
+    <div class="flip-box-inner">
+    <div class="flip-box-front-1" onmouseover="vacancy('room_102')"><br>102</div>
+    <div class="flip-box-back" id="room_102"></div>
+    </div>
+    </div>
+    
+    <div class="flip-area">
+    <div class="flip-box-inner">
+    <div class="flip-box-front-1" onmouseover="vacancy('room_103')"><br>103</div>
+    <div class="flip-box-back" id="room_103"></div>
+    </div>
+    </div>
+
+      <div class="flip-area">
+          <div class="flip-box-inner">
+            <div class="flip-box-front-1" onmouseover="vacancy('room_104')"><br>104</div>
+            <div class="flip-box-back" id="room_104"></div>
+          </div>
+      </div>
+      <div class="flip-area">
+        <div class="flip-box-inner">
+          <div class="flip-box-front-1" onmouseover="vacancy('room_105')"><br>105</div>
+          <div class="flip-box-back" id="room_105"></div>
+        </div>
+      </div>
+      <div class="flip-area">
+          <div class="flip-box-inner">
+            <div class="flip-box-front-1" onmouseover="vacancy('room_106')"><br>106</div>
+            <div class="flip-box-back" id="room_106"></div>
+          </div>
+      </div>
+      <div class="flip-area">
+        <div class="flip-box-inner">
+          <div class="flip-box-front-1" onmouseover="vacancy('room_107')"><br>107</div>
+          <div class="flip-box-back" id="room_107"></div>
+        </div>
+      </div>
+      <div class="flip-area">
+          <div class="flip-box-inner">
+            <div class="flip-box-front-1" onmouseover="vacancy('room_108')"><br>108</div>
+            <div class="flip-box-back" id="room_108"></div>
+          </div>
+      </div>
+      <div class="flip-area">
+        <div class="flip-box-inner">
+          <div class="flip-box-front-1" onmouseover="vacancy('room_109')"><br>109</div>
+          <div class="flip-box-back" id="room_109"></div>
+        </div>
+      </div>
+      <div class="flip-area">
+          <div class="flip-box-inner">
+            <div class="flip-box-front-1" onmouseover="vacancy('room_110')"><br>110</div>
+            <div class="flip-box-back" id="room_110"></div>
+          </div>
+      </div>
+      <div class="flip-area">
+        <div class="flip-box-inner">
+          <div class="flip-box-front-1" onmouseover="vacancy('room_111')"><br>111</div>
+          <div class="flip-box-back" id="room_111"></div>
+        </div>
+      </div>
+      <div class="flip-area">
+          <div class="flip-box-inner">
+            <div class="flip-box-front-1" onmouseover="vacancy('room_112')"><br>112</div>
+            <div class="flip-box-back" id="room_112"></div>
+          </div>
+      </div>
+    </div>
+</div>
+
+<br><br>
+
+<div id="double-bed"><br><br>
+    <div class="bed-2-text" id="bed-2-text">
+        DOUBLE-BED ROOM
+    </div>
+    <div class="bed-2-rooms">
+        <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_201')"><br>201</div>
+              <div class="flip-box-back" id="room_201"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_202')"><br>202</div>
+                <div class="flip-box-back" id="room_202"></div>
+              </div>
+          </div>
+          <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_203')"><br>203</div>
+              <div class="flip-box-back" id="room_203"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_204')"><br>204</div>
+                <div class="flip-box-back" id="room_204"></div>
+              </div>
+          </div>
+          <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_205')"><br>205</div>
+              <div class="flip-box-back" id="room_205"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_206')"><br>206</div>
+                <div class="flip-box-back" id="room_206"></div>
+              </div>
+          </div>
+          <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_207')"><br>207</div>
+              <div class="flip-box-back" id="room_207"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_208')"><br>208</div>
+                <div class="flip-box-back" id="room_208"></div>
+              </div>
+          </div>
+          <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_209')"><br>209</div>
+              <div class="flip-box-back" id="room_209"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_210')"><br>210</div>
+                <div class="flip-box-back" id="room_210"></div>
+              </div>
+          </div>
+          <div class="flip-area">
+            <div class="flip-box-inner">
+              <div class="flip-box-front-2" onmouseover="vacancy('room_211')"><br>211</div>
+              <div class="flip-box-back" id="room_211"></div>
+            </div>
+          </div>
+          <div class="flip-area">
+              <div class="flip-box-inner">
+                <div class="flip-box-front-2" onmouseover="vacancy('room_212')"><br>212</div>
+                <div class="flip-box-back" id="room_212"></div>
+              </div>
+          </div>
+        </div>
+</div>
+
+<br><br>
+
+<div id="triple-bed"><br><br>
+  <div class="bed-3-text" id="bed-3-text">
+    TRIPLE-BED ROOM
+  </div>
+        <div class="bed-3-rooms">
+            <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_301')"><br>301</div>
+                  <div class="flip-box-back" id="room_301"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_302')"><br>302</div>
+                    <div class="flip-box-back" id="room_302"></div>
+                  </div>
+              </div>
+              <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_303')"><br>303</div>
+                  <div class="flip-box-back" id="room_303"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_304')"><br>304</div>
+                    <div class="flip-box-back" id="room_304"></div>
+                  </div>
+              </div>
+              <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_305')"><br>305</div>
+                  <div class="flip-box-back" id="room_305"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_306')"><br>306</div>
+                    <div class="flip-box-back" id="room_306"></div>
+                  </div>
+              </div>
+              <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_307')"><br>307</div>
+                  <div class="flip-box-back" id="room_307"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_308')"><br>308</div>
+                    <div class="flip-box-back" id="room_308"></div>
+                  </div>
+              </div>
+              <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_309')"><br>309</div>
+                  <div class="flip-box-back" id="room_309"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_310')"><br>310</div>
+                    <div class="flip-box-back" id="room_310"></div>
+                  </div>
+              </div>
+              <div class="flip-area">
+                <div class="flip-box-inner">
+                  <div class="flip-box-front-3" onmouseover="vacancy('room_311')"><br>311</div>
+                  <div class="flip-box-back" id="room_311"></div>
+                </div>
+              </div>
+              <div class="flip-area">
+                  <div class="flip-box-inner">
+                    <div class="flip-box-front-3" onmouseover="vacancy('room_312')"><br>312</div>
+                    <div class="flip-box-back" id="room_312"></div>
+                  </div>
+              </div>
+<br><br>
+</div>
+</div>
+
+</div>
+
+<div class="popup" id="details">
+  <div id="left">
+    <br>
+    Room No.<br>
+    Name<br>
+    Email<br>
+    Contact No<br>
+    Check In<br>
+    Check Out<br>
+    Duration<br>
+    Amount
+  </div>
+  <div id="right">
+  </div>
+  <div class="bottom">
+  <input type="button" value="Cancel" id="button" onclick="closeForm()">
+  <input type="button" value="Confirm" id="button" onclick="room_id('check_out')">
+</div>
+</div>
+</body>
+</html>
