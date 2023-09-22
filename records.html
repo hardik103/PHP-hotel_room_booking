@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: linear-gradient(to bottom right, rgb(2, 110, 225), rgb(128, 30, 174), rgb(255, 0, 140));
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        #navbar
+    {
+        overflow: hidden;
+        position:fixed;
+        z-index: 1;
+        width:100%;
+        top: 0;
+        left: 0;
+        background-color: rgb(39, 39, 39);
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        padding-top: 0.5%;
+        padding-bottom: 0.5%;
+    }
+    li .left{
+        float: left;
+    }
+    li .right{
+        float: right;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        font-size: 25px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        text-decoration: none;
+        padding: 2px 2px 2px 2px;
+    }
+    li a:hover{
+      background-color: rgb(5, 243, 255);
+      border-radius: 10px;
+    }
+    body{
+        text-align: center;
+        font-size: 25px;
+        color: white;
+        margin-top: 60px;
+        margin-left: 50px;
+        margin-right: 50px;
+        text-shadow: 5px 5px 5px black;
+    }
+    select{
+        font-size: 22px;
+        border-radius: 30px;
+        background-color: rgba(255, 0, 140, 0.512);
+        color: white;
+    }
+    label{
+        font-size: 25px;
+        color: white;
+        background-color: white;
+        border-radius: 30px;
+        border-color: white;
+    }
+    input{
+        font-size: 20px;
+        color: white;
+        background-color: rgba(255, 0, 140, 0.512);
+        border-radius: 30px;
+    }
+    #display{
+        font-size: 25px;
+        color: white;
+    }
+    #headers{
+        position: absolute;
+        float:left;
+    }
+    </style>
+    <script>
+        let value;
+        function refresh_display(){
+            value=document.getElementById("options").value;
+            let html;
+            switch(value){
+                case "ROOM NO":
+                html="<input type='textbox' class='fields' id='text' value='R'>";
+                break;
+                case "NAME":
+                html="<input type='textbox' class='fields' id='text'>";
+                break;
+                case "CONTACT NO":
+                html="<input type='textbox' class='fields' id='text'>";
+                break;
+                case "EMAIL":
+                html="<input type='email' class='fields' id='text'>";
+                break;
+                case "ID NO":
+                html="<input type='textbox' class='fields' id='text'>";
+                break;
+                default :
+                html="Select an option from the above dropdown.";
+            }
+            document.getElementById("display").innerHTML=html;
+        }
+        function fetch_data(database){
+            database="DATABASE="+database;
+            var column;
+            switch(value){
+                case "ROOM NO":
+                column="COLUMN=Room_ID";
+                break;
+                case "NAME":
+                column="COLUMN=First_Name";
+                break;
+                case "CONTACT NO":
+                column="COLUMN=Contact_No";
+                break;
+                case "EMAIL":
+                column="COLUMN=Email";
+                break;
+                case "ID NO":
+                column="COLUMN=ID_No";
+                break;
+                default :
+                alert("Medium Not Selected !");
+                return;
+            }
+            var text="VALUE="+document.getElementById("text").value;
+            if(text=="VALUE=" || text=="VALUE=R") return;
+            var caller = new XMLHttpRequest;
+            caller.open('POST','p_search.php?',true);
+            caller.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            caller.onload = function() {
+                //if(caller.response == 903){
+                    alert(caller.responseText);
+                //}else{
+                    //row = JSON.parse(caller.response);
+                //}
+            }
+            //alert(database+";"+column+";"+value);
+            caller.send(database+"&"+column+"&"+text);
+        }
+    </script>
+</head>
+<body onload="refresh_display()">
+    <ul id="navbar">
+      <li><a href="home.html" class="left">HOME</a></li>
+      <li><a href="records.html" class="left">RECORDS</a></li>
+    </ul>
+    SEARCH BY :
+    <select id="options" onchange="refresh_display()">
+        <option value="SELECT">SELECT</option>
+        <option value="ROOM NO">ROOM NO</option>
+        <option value="NAME">NAME</option>
+        <option value="CONTACT NO">CONTACT NO</option>
+        <option value="EMAIL">EMAIL</option>
+        <option value="ID NO">ID NO</option>
+    </select><br><br>
+    <div id="display"></div>
+    <hr>
+    <div id="new-records">
+        <div id="headers"><input type="button" value="Fetch in Current Data" onclick="fetch_data('room_data')"></div>
+        <div id=""><br><br><br><br><br><br></div>
+        <hr>
+    </div>
+    <div id="old-records">
+        <div id="headers"><input type="button" value="Fetch in Old Data" onclick="fetch_data('records')"></div>
+        <div id=""><br><br><br><br><br><br></div>
+        <hr>
+    </div>
+</body>
+</html>
