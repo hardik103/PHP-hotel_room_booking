@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html
+        {
+            scroll-behavior: smooth;
+        }
+        body{
+            text-align: center;
+        }
+        #navbar{
+        overflow: hidden;
+        position:fixed;
+        z-index: 1;
+        width:100%;
+        top: 0;
+        left: 0;
+        background-color: rgb(39, 39, 39);
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        padding-top: 0.5%;
+        padding-bottom: 0.5%;
+    }
+    li .left{
+        float: left;
+    }
+    li .right{
+        float: right;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        font-size: 25px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        text-decoration: none;
+        padding: 2px 2px 2px 2px;
+    }
+
+    li a:hover{
+      background-color: rgb(5, 243, 255);
+      border-radius: 10px;
+    }
+        #heading
+        {
+            color: rgb(255, 255, 255);
+            background-color: rgb(143, 67, 214);
+            border-radius: 40px;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 60px;
+            text-align: center;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-size: 33px;
+        }#text
+        {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-size: 25px;
+            font-weight:bold;
+            color: blueviolet;
+        }
+        #detail_box
+        {
+            background-size: cover;
+            background-color:rgba(86, 38, 231, 0.471);
+            margin-left: 30%;
+            margin-right: 30%;
+            border-radius: 20px;
+            font-size: 25px;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+        }
+        .textbox
+        {
+            color: blueviolet;
+            font-size: 22px;
+            border-radius: 25px;
+        }
+        .buttons
+        {
+            border-radius: 30px;
+            border-color: aliceblue;
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(143, 67, 214);
+        }
+        .options{
+            font-size: 20px;
+            border-radius: 20px;
+            color:rgb(143, 67, 214);
+            background-color:white;
+        }
+        #about_us {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            color: rgb(143, 67, 214);
+        }
+    </style>
+    <script>
+        function auto_detect(){
+            let cookie_data = decodeURIComponent(document.cookie);
+            let user = cookie_data.slice(cookie_data.indexOf("=")+1);
+            if( user != "CUSTOMER"){
+                window.location.href="sign-in.html";
+            }
+        }
+
+        function logout(){
+            document.cookie = 'USER=NONE';
+            alert("You have been logged out");
+            auto_detect();
+        }
+    </script>
+</head>
+<body onload="auto_detect()">
+    <ul id="navbar">
+        <li><a href="#about_us" class="left">ABOUT US</a></li>
+        <li><a onclick="logout()" class="right">LOGOUT</a></li>
+    </ul>
+    <p id="heading">RESERVATION PAGE</p> 
+    <p id="text">REQUEST FOR A RESERVATION</p>
+    <div id="detail_box">
+    <form action="p_reservations.php" method="post">
+    <br>
+    Full Name<br>
+    <input type="text" name="name" class="textbox" required><br><br>
+    Email<br>
+    <input type="email" name="email" class="textbox" required><br><br>
+    Reservation From<br>
+    <select class="options" name="f_date" required>
+        <option value="01">1</option>
+        <option value="02">2</option>
+        <option value="03">3</option>
+        <option value="04">4</option>
+        <option value="05">5</option>
+        <option value="06">6</option>
+        <option value="07">7</option>
+        <option value="08">8</option>
+        <option value="09">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+    </select>
+    <select class="options" name="f_month" required>
+        <option value="01">Jan</option>
+        <option value="02">Feb</option>
+        <option value="03">Mar</option>
+        <option value="04">Apr</option>
+        <option value="05">May</option>
+        <option value="06">Jun</option>
+        <option value="07">Jul</option>
+        <option value="08">Aug</option>
+        <option value="09">Sep</option>
+        <option value="10">Oct</option>
+        <option value="11">Nov</option>
+        <option value="12">Dec</option>
+    </select>
+    <select class="options" name="f_year" required>
+        <option value="23">2023</option>
+        <option value="24">2024</option>
+    </select>
+    <br><br>
+    Reservation To<br>
+    <select class="options" name="t_date" required>
+        <option value="01">1</option>
+        <option value="02">2</option>
+        <option value="03">3</option>
+        <option value="04">4</option>
+        <option value="05">5</option>
+        <option value="06">6</option>
+        <option value="07">7</option>
+        <option value="08">8</option>
+        <option value="09">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+    </select>
+    <select class="options" name="t_month" required>
+        <option value="01">Jan</option>
+        <option value="02">Feb</option>
+        <option value="03">Mar</option>
+        <option value="04">Apr</option>
+        <option value="05">May</option>
+        <option value="06">Jun</option>
+        <option value="07">Jul</option>
+        <option value="08">Aug</option>
+        <option value="09">Sep</option>
+        <option value="10">Oct</option>
+        <option value="11">Nov</option>
+        <option value="12">Dec</option>
+    </select>
+    <select class="options" name="t_year" required>
+        <option value="23">2023</option>
+        <option value="24">2024</option>
+    </select>
+    <br><br>
+    Room Type<br>
+    <select class="options" name="room_type" required>
+        <option value="SINGLE">Single Bed</option>
+        <option value="DOUBLE">Double Bed</option>
+        <option value="TRIPLE">Triple Bed</option>
+    </select>
+    <br><br>
+    </div>
+    <br>
+    <input type="reset" value="CLEAR" class="buttons">
+    <input type="submit" value="SUBMIT" class="buttons"><br><br>
+    </form>
+    <hr>
+    <div id="about_us">
+        -ABOUT US-<br>
+        Hardik Pandey<br>
+        3rd Year BCA - CA (B)<br>
+        SRMIST, Kattankulathur<br>
+    </div>
+</body>
+</html>

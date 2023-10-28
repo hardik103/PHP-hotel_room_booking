@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        #detail_box
+        {
+            background-size: cover;
+            background-color:rgba(86, 38, 231, 0.471);
+            margin-left: 30%;
+            margin-right: 30%;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 25px;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: bold;
+            text-align: center;
+        }
+        #heading
+        {
+            color: rgb(255, 255, 255);
+            background-color: rgb(143, 67, 214);
+            border-radius: 40px;
+            margin-left: 20%;
+            margin-right: 20%;
+            text-align: center;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+        }
+        #text
+        {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-size: 25px;
+            font-weight:bold;
+            color: blueviolet;
+        }
+        .textbox
+        {
+            color: blueviolet;
+            font-size: 25px;
+            align-items:last baseline;
+            border-radius: 25px;
+        }
+        .buttons
+        {
+            border-radius: 30px;
+            border-color: aliceblue;
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(143, 67, 214);
+        }
+        @media screen and (max-width: 621px)
+        {
+            #detail_box
+            {
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+            #form
+            {
+                margin-left: 7%;
+                margin-right: 7%;
+                text-align: center;
+            }
+            .textbox
+            {
+                font-size: 15px;
+            }
+        }
+        @media screen and (max-width: 700px)
+        {
+            .textbox
+            {
+                font-size: 17px;
+            }
+        }
+        @media screen and (max-width: 800px)
+        {
+            .textbox
+            {
+                font-size: 20px;
+            }
+        }
+        @media screen and (max-width: 900px)
+        {
+            .textbox
+            {
+                font-size: 22px;
+            }
+        }
+        @media screen and (max-width: 1085px)
+        {
+            #form
+            {
+                margin-left: 7%;
+                margin-right: 7%;
+                text-align: center;
+            }
+        }
+    </style>
+    <script>
+        function check_details(){
+
+        }
+    </script>
+</head>
+<body>
+    <H1 id="heading">SIGN-UP WINDOW</H1> 
+    <p id="text">ENTER YOUR DETAILS</p>
+    <div id="detail_box"><br>
+    <form id="form" action="p_sign_up.php" method="post" onsubmit="return check_details()">
+    Full Name<br>
+    <input type="text" name="name" class="textbox" required><br><br>
+    Email<br>
+    <input type="email" name="email" class="textbox" required><br><br>
+    Password<br>
+    <input type="password" name="pass" class="textbox" required><br><br>
+    Confirm Password<br>
+    <input type="password" name="pass_confirm" class="textbox" required><br><br>
+    <p id="error"><br></p>
+    <input type="reset" value="CLEAR" class="buttons">
+    <input type="submit" value="GENERATE" class="buttons"><br><br>
+    </div>
+    </form>
+    <p id="text">ALREADY A USER ? <a href="sign-in.html"><input type="button" value="SIGN IN" class="buttons"></a></p>
+</body>
+</html>

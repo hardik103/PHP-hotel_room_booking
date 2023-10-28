@@ -49,16 +49,16 @@
     <script>
         function cookie_extractor(){
             var cookie_data = decodeURIComponent(document.cookie);
-            if( cookie_data == "" ){
-                window.location.href = "home.html";
-            } else {
-                room_id=cookie_data.substring(cookie_data.indexOf("=")+1);
+            room_id=cookie_data.substring(cookie_data.lastIndexOf("=")+1);
+            if( room_id.length == 4 ){
                 document.getElementById('right_align').innerHTML += `
                 <label for="">Room No.</label><br>
                 <input type="text" name="room_id" value=${room_id} readonly><br>`;
 
                 document.getElementById('image').style.transitionDuration = "2.5s";
                 document.getElementById('image').style.opacity = "1";
+            }else{
+                window.location.href="booking.html";
             }
        }
 

@@ -34,13 +34,13 @@
         color: white;
         text-align: center;
         font-size: 25px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
         text-decoration: none;
         padding: 2px 2px 2px 2px;
     }
 
     li a:hover{
-      background-color: rgb(5, 243, 255);
+      background-color: rgb(2, 110, 225);
       border-radius: 10px;
     }
 
@@ -183,7 +183,7 @@ html
   font-size: 25px;
   margin-left: 5%;
   float: left;
-  width: 23%;
+  width: 25%;
 }
 #right
 {
@@ -191,7 +191,7 @@ html
   color: #ffffff;
   font-size: 25px;
   float: right;
-  width: 69%;
+  width: 65%;
   margin-right: 3%;
 }
 .bottom
@@ -210,6 +210,20 @@ html
     var time = " ";
     var duration = " ";
     var amount = " ";
+
+    function auto_detect(){
+            let cookie_data = decodeURIComponent(document.cookie);
+            let user = cookie_data.slice(cookie_data.indexOf("=")+1);
+            if( user != "ADMIN"){
+                window.location.href="sign-in.html";
+            }
+        }
+
+        function logout(){
+            document.cookie = 'USER=NONE';
+            alert("You have been logged out");
+            auto_detect();
+        }
     
     function room_id(action){
         if(action == 'check_in'){
@@ -267,7 +281,7 @@ html
           time = new Date().getFullYear()+"-"+adder(new Date().getMonth()+1)+"-"+adder(new Date().getDate())+" "+adder(new Date().getHours())+":"+adder(new Date().getMinutes())+":"+adder(new Date().getSeconds());
           duration = Math.ceil((new Date(time)-new Date(row['In_Time']))/(1000*60*60));
           amount = duration * 130;
-          document.getElementById('right').innerHTML = "<br>: "+row['Room_ID']+"<br>: "+row['First_Name']+" "+row['Middle_Name']+" "+row['Last_Name']+"<br>: "+row['Email']+"<br>: "+row['Contact_No']+"<br>: "+row['In_Time']+"<br>: "+time+"<br>: "+duration+" Hour(s)<br>: "+"-/ "+amount+" Rupees<br>";
+          document.getElementById('right').innerHTML = "<br>: "+row['Room_ID']+"<br>: "+row['First_Name']+" "+row['Middle_Name']+" "+row['Last_Name']+"<br>: "+row['Email']+"<br>: "+row['Contact_No']+"<br>: "+row['In_Time']+"<br>: "+time+"<br>: "+duration+" Hour(s)<br>: "+amount+" Rupees<br>";
         }
       }
       caller.send(data);
@@ -290,13 +304,12 @@ html
     }
 </script>
 </home>
-<body>
+<body onload="auto_detect()">
     <ul id="navbar">
-      <li><a href="home.html" class="left">HOME</a></li>
-      <li><a href="records.html" class="left">RECORDS</a></li>
-      <li><a href="#triple-bed" class="right">TRIPLE-BED</a></li>
-      <li><a href="#double-bed" class="right">DOUBLE-BED</a></li>
-      <li><a href="#single-bed" class="right">SINGLE-BED</a></li>
+      <li><a href="#single-bed" class="left">SINGLE-BED</a></li>
+      <li><a href="#double-bed" class="left">DOUBLE-BED</a></li>
+      <li><a href="#triple-bed" class="left">TRIPLE-BED</a></li>
+      <li><a onclick="logout()" class="right">LOGOUT</a></li>
     </ul>
 
 <div id="rooms">
@@ -552,16 +565,15 @@ html
 </div>
 
 <div class="popup" id="details">
-  <div id="left">
-    <br>
-    Room No.<br>
-    Name<br>
-    Email<br>
-    Contact No<br>
-    Check In<br>
-    Check Out<br>
-    Duration<br>
-    Amount
+  <div id="left"><br>
+  Room No.<br>
+  Full Name<br>
+  Email<br>
+  Contact No.<br>
+  Check In<br>
+  Check Out<br>
+  Hours<br>
+  Amount<br>
   </div>
   <div id="right">
   </div>
